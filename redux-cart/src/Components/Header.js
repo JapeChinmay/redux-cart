@@ -8,12 +8,20 @@ import Table from "react-bootstrap/esm/Table";
 import { faCartPlus } from "@fortawesome/free-solid-svg-icons";
 import React, { useState } from "react";
 import Badge from "@mui/material/Badge";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
+import { REMOVE } from "../Redux/actions/Action";
 
 export const Header = () => {
   const getData = useSelector((state) => state.cartreducer.carts);
   console.log(getData);
+
+  const dispatch = useDispatch();
+
+  const dlt = (id) => {
+    dispatch(REMOVE(id));
+  };
+
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -72,7 +80,7 @@ export const Header = () => {
                     <>
                       <tr>
                         <td>
-                          <NavLink to={`/cart/${e.id}`}>
+                          <NavLink to={`/cart/${e.id}`} onClick={handleClose}>
                             <img
                               src={e.imgdata}
                               style={{ width: "5rem", height: "5rem" }}
@@ -85,7 +93,10 @@ export const Header = () => {
                           <p>{e.rname}</p>
                           <p> Price : {e.price}</p>
                           <p>Quantity : {e.qnty}</p>
-                          <p style={{ color: "red", fontSize: "20px" }}>
+                          <p
+                            style={{ color: "red", fontSize: "20px" }}
+                            onClick={() => dlt(e.id)}
+                          >
                             <i className="fas fa-trash"></i>
                           </p>
                         </td>
