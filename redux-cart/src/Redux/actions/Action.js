@@ -11,3 +11,10 @@ export const REMOVE = (id) => {
     payload: id,
   };
 };
+
+export const REMOVEONEBYONE = (item) => {
+  return {
+    type: "RMV_ONE",
+    payload: item,
+  };
+};

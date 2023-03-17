@@ -6,13 +6,14 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Table from "react-bootstrap/esm/Table";
 import { faCartPlus } from "@fortawesome/free-solid-svg-icons";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Badge from "@mui/material/Badge";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { REMOVE } from "../Redux/actions/Action";
 
 export const Header = () => {
+  const [price, setPrice] = useState(0);
   const getData = useSelector((state) => state.cartreducer.carts);
   console.log(getData);
 
@@ -21,6 +22,19 @@ export const Header = () => {
   const dlt = (id) => {
     dispatch(REMOVE(id));
   };
+
+  const total = () => {
+    let price = 0;
+    getData.map((ele, key) => {
+      return (price = ele.price + price);
+    });
+
+    setPrice(price);
+  };
+
+  useEffect(() => {
+    total();
+  }, [total]);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -104,7 +118,7 @@ export const Header = () => {
                     </>
                   ))}
 
-                  <p className="text-center"> Total : 300</p>
+                  <p className="text-center"> Total : {price}</p>
                 </tbody>
               </Table>
             </div>
